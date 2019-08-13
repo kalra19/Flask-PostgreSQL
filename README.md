@@ -3,5 +3,5 @@ This POC is implementted using Python Flask, SQLAlchemy and datatbase used is Po
 ____________________________________________________________________________________________________________________________________
 
 Below are the HTTP Methods used for each Operation:
-1. 
-2.
+1. Hello
+2. Bye
