@@ -1,2 +1,2 @@
-# Flask-PostgreSQL-SQLALchemy
-This POC is implementted using Python Flask and datatbase used in MongoDB. This POC is implemented for POST and GET request. The Json File for Course is "CourseDetails.json" and for Student is "Student.json".
+# Flask PostgreSQL SQLALchemy
+This POC is implementted using Python Flask and datatbase used in PostgreSQL. This POC is implemented to perform Select, Insert, Update and Delete Operation in Employee table created in PostgreSQL Database. 
