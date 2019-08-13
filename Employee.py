@@ -28,6 +28,7 @@ results_schema = CreateSchema(many=True)
 
 class find(Resource):
 
+#Below method fetches all the records from Employee table
     def get(self):
         stu_details = Employee.query.all()
 
@@ -37,6 +38,7 @@ class find(Resource):
         else:
             return jsonify({"Message": "No Records Found"})
 
+#Below method inserts a record in Employee table and display the inserted id for same
     def post(self):
         try:
             req_data = request.get_json()
@@ -53,6 +55,7 @@ class find(Resource):
         except Exception as e:
             return str(e)
 
+#Below method updates the record in Employee table by verifying "id" of Employee
     def put(self):
         req_data = request.get_json()
         searchbyid = req_data['id']
@@ -66,6 +69,7 @@ class find(Resource):
         else:
             return jsonify({"Message": "Employee Doesnot Exist"})
 
+#Below method deletes a record in Empployee table by verifying "id" of Employee
     def delete(self):
         req_data = request.get_json()
         query_by_id = Employee.query.filter_by(id=req_data['id']).first()
@@ -79,6 +83,7 @@ class find(Resource):
 
 class GetById(Resource):
 
+#Below method fetches the Employee by "id" field
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int, location='args', required=True)
