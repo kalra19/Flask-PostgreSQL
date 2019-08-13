@@ -30,8 +30,12 @@ class find(Resource):
 
     def get(self):
         stu_details = Employee.query.all()
-        output = results_schema.dump(stu_details)
-        return jsonify(output)
+
+        if stu_details:
+            output = results_schema.dump(stu_details)
+            return jsonify(output)
+        else:
+            return jsonify({"Message": "No Records Found"})
 
     def post(self):
         try:
@@ -53,13 +57,19 @@ class find(Resource):
         req_data = request.get_json()
         searchbyid = req_data['id']
         query_by_id = Employee.query.filter_by(id=searchbyid).first()
-        query_by_id.first_name = req_data['first_name']
-        query_by_id.last_name = req_data['last_name']
-        db.session.commit()
+
+        if query_by_id:
+            query_by_id.first_name = req_data['first_name']
+            query_by_id.last_name = req_data['last_name']
+            db.session.commit()
+            return jsonify({"Message": "Record Updated Successfully"})
+        else:
+            return jsonify({"Message": "Employee Doesnot Exist"})
 
     def delete(self):
         req_data = request.get_json()
         query_by_id = Employee.query.filter_by(id=req_data['id']).first()
+
         if query_by_id:
             db.session.delete(query_by_id)
             db.session.commit()
@@ -68,12 +78,14 @@ class find(Resource):
             return jsonify({"Message": "Employee Doesnot Exist"})
 
 class GetById(Resource):
+
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int, location='args', required=True)
         args = parser.parse_args()
 
         query_by_id = Employee.query.filter_by(id=args['id']).all()
+
         if query_by_id:
             output = results_schema.dump(query_by_id)
             return jsonify(output)
