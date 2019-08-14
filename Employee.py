@@ -5,6 +5,7 @@ from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:password@localhost/mydatabase'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 api = Api(app)
@@ -23,7 +24,7 @@ class CreateSchema(ma.Schema):
     class Meta:
         fields = ('id', 'first_name', 'last_name')
 
-result_new_schema = CreateSchema()
+result_schema = CreateSchema()
 results_schema = CreateSchema(many=True)
 
 class find(Resource):
@@ -89,10 +90,10 @@ class GetById(Resource):
         parser.add_argument('id', type=int, location='args', required=True)
         args = parser.parse_args()
 
-        query_by_id = Employee.query.filter_by(id=args['id']).all()
+        query_by_id = Employee.query.filter_by(id=args['id']).first()
 
         if query_by_id:
-            output = results_schema.dump(query_by_id)
+            output = result_schema.dump(query_by_id)
             return jsonify(output)
         else:
             return jsonify({"Message": "Employee Doesnot Exist"})
